@@ -1,0 +1,10 @@
+numpy==1.22.4
+pandas==1.4.2
+plotly==5.13.1
+streamlit==1.17.0
+yahoo-fin==0.8.9.1
+joblib==1.1.0
+sklearn==0.0
+keras==2.9.0
+Keras-Preprocessing==1.1.2
+tensorflow==2.9.1
