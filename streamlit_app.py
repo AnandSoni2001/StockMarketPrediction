@@ -329,6 +329,7 @@ with option3:
         fig.update_layout(xaxis_title='Year', yaxis_title='Price', title='Comparing other relevant parameters')
         st.plotly_chart(fig, use_container_width=True)
 
+st.write("#")
 #Riskometer
 # Create object page
 def get_info(url, x):
@@ -528,6 +529,7 @@ if st.button('Click Here'):
         
 
 #Support & Resistance
+st.write("#")
 st.subheader('Support and Resistance Indicators : ')
 
 def supp_resis(x):
