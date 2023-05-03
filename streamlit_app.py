@@ -59,23 +59,18 @@ if comp == 'Tata Consultancy Services - TCS':
     col2.metric(label="52 Week High", value=tcs[3])
     col3.metric(label="52 Week Low", value=tcs[4])
     col4.metric(label="Return on Equity", value=tcs[34])
-
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric(label='Previous Close', value=y)
-    col2.metric(label="Book Value Per Share", value=tcs[48])
-    col3.metric(label='Earning Per Share', value=tcs[41])
-    col4.metric(label="Dividend Yield", value=tcs[22])
     
     col1, col2, col3, col4 = st.columns(4)
     col1.metric(label='P/B Ratio', value=pb)
     col2.metric(label="P/E Ratio", value=pe)
     col3.metric(label='Industry P/E', value=indpe)
     col4.metric(label="Debt to Equity", value=de)
-    
-    
-    #Access URL object
-if comp == 'Infosys - INFY':
-    ans = get_info('https://groww.in/stocks/infosys-ltd', 'INFY.NS')
+
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric(label='Previous Close', value=y)
+    col2.metric(label="Book Value Per Share", value=tcs[48])
+    col3.metric(label='Earning Per Share', value=tcs[41])
+    col4.metric(label="Dividend Yield", value=tcs[22])
 
 
 if comp == 'Reliance Industries - RELIANCE':
@@ -100,22 +95,22 @@ if comp == 'Reliance Industries - RELIANCE':
     col2.metric(label="52 Week High", value=rel[3])
     col3.metric(label="52 Week Low", value=rel[4])
     col4.metric(label="Return on Equity", value='8.21%')
-
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric(label='Previous Close', value=y)
-    col2.metric(label="Book Value Per Share", value=float(fund[7].text))
-    col3.metric(label='Earning Per Share', value=float(fund[3].text))
-    col4.metric(label="Dividend Yield", value=div)
     
     col1, col2, col3, col4 = st.columns(4)
     col1.metric(label='P/B Ratio', value=pb)
     col2.metric(label="P/E Ratio", value=pe)
     col3.metric(label='Industry P/E', value=indpe)
     col4.metric(label="Debt to Equity", value=de)
+    
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric(label='Previous Close', value=y)
+    col2.metric(label="Book Value Per Share", value=float(fund[7].text))
+    col3.metric(label='Earning Per Share', value=float(fund[3].text))
+    col4.metric(label="Dividend Yield", value=div)
 
 if comp == 'Infosys - INFY':
     
-    page = requests.get('https://groww.in/stocks/tata-consultancy-services-ltd')
+    page = requests.get('https://groww.in/stocks/infosys-ltd')
     soup=BeautifulSoup(page.content,'html.parser')
     fund=soup.find_all('td',class_="ft785Value")
 
@@ -135,18 +130,18 @@ if comp == 'Infosys - INFY':
     col2.metric(label="52 Week High", value=inf[3])
     col3.metric(label="52 Week Low", value=inf[4])
     col4.metric(label="Return on Equity", value=inf[34])
-
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric(label='Previous Close', value=y)
-    col2.metric(label="Book Value Per Share", value=inf[48])
-    col3.metric(label='Earning Per Share', value=inf[41])
-    col4.metric(label="Dividend Yield", value=inf[22])
     
     col1, col2, col3, col4 = st.columns(4)
     col1.metric(label='P/B Ratio', value=pb)
     col2.metric(label="P/E Ratio", value=pe)
     col3.metric(label='Industry P/E', value=indpe)
     col4.metric(label="Debt to Equity", value=de)
+    
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric(label='Previous Close', value=y)
+    col2.metric(label="Book Value Per Share", value=inf[48])
+    col3.metric(label='Earning Per Share', value=inf[41])
+    col4.metric(label="Dividend Yield", value=inf[22])
 
 #Tab for Hist Data
 st.write("#")
@@ -486,7 +481,7 @@ if st.button('Click Here'):
             x_test.append(test_data[i-60:i, 0])
         x_test = np.array(x_test)
         x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
-        new = joblib.load('tcsdail_1.pkl')
+        new = joblib.load('OldModel/tcsdail_1.pkl')
         ans = new.predict(x_test)
         ans1 = scaler.inverse_transform(ans)
         val = np.around(ans1[-1][0], decimals=2)
@@ -506,7 +501,7 @@ if st.button('Click Here'):
             x_test.append(test_data[i-60:i, 0])
         x_test = np.array(x_test)
         x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
-        new = joblib.load('reldail_1.pkl')
+        new = joblib.load('OldModel/reldail_1.pkl')
         ans = new.predict(x_test)
         ans1 = scaler.inverse_transform(ans)
         val = np.around(ans1[-1][0], decimals=2)
@@ -526,7 +521,7 @@ if st.button('Click Here'):
             x_test.append(test_data[i-60:i, 0])
         x_test = np.array(x_test)
         x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
-        new = joblib.load('infdail_1.pkl')
+        new = joblib.load('OldModel/infdail_1.pkl')
         ans = new.predict(x_test)
         ans1 = scaler.inverse_transform(ans)
         val = np.around(ans1[-1][0], decimals=2)
