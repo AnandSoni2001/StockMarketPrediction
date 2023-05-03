@@ -37,10 +37,24 @@ infyearly = pd.read_csv('data/infosys-yearly.csv')
 comp = st.selectbox('Select a Company from the below options :', ('Tata Consultancy Services - TCS', 'Reliance Industries - RELIANCE', 'Infosys - INFY'))
 
 if comp == 'Tata Consultancy Services - TCS':
+    
+    page = requests.get('https://groww.in/stocks/tata-consultancy-services-ltd')
+    soup=BeautifulSoup(page.content,'html.parser')
+    fund=soup.find_all('td',class_="ft785Value")
+
+    #Fundamental Values
+    pb = float(fund[4].text)
+    pe = float(fund[2].text)
+    de = float(fund[8].text)
+    div = float(fund[5].text.replace('%',''))
+    roe = float(fund[1].text.replace('%',''))
+    indpe = float(fund[6].text)
+    
     col1, col2, col3, col4 = st.columns(4)
     x = round(stock_info.get_live_price("TCS.NS"),2)
     y = round(tcsdaily['close'].iloc[-2],2)
     tcs = get_stats('TCS.NS')['Value']
+    
     col1.metric(label="Market Price", value=x, delta = round(x-y,2))
     col2.metric(label="52 Week High", value=tcs[3])
     col3.metric(label="52 Week Low", value=tcs[4])
@@ -51,9 +65,33 @@ if comp == 'Tata Consultancy Services - TCS':
     col2.metric(label="Book Value Per Share", value=tcs[48])
     col3.metric(label='Earning Per Share', value=tcs[41])
     col4.metric(label="Dividend Yield", value=tcs[22])
+    
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric(label='P/B Ratio', value=pb)
+    col2.metric(label="P/E Ratio", value=pe)
+    col3.metric(label='Industry P/E', value=indpe)
+    col4.metric(label="Debt to Equity", value=de)
+    
+    
+    #Access URL object
+if comp == 'Infosys - INFY':
+    ans = get_info('https://groww.in/stocks/infosys-ltd', 'INFY.NS')
 
 
 if comp == 'Reliance Industries - RELIANCE':
+    
+    page = requests.get('https://groww.in/stocks/reliance-industries-ltd')
+    soup=BeautifulSoup(page.content,'html.parser')
+    fund=soup.find_all('td',class_="ft785Value")
+
+    #Fundamental Values
+    pb = float(fund[4].text)
+    pe = float(fund[2].text)
+    de = float(fund[8].text)
+    div = float(fund[5].text.replace('%',''))
+    roe = float(fund[1].text.replace('%',''))
+    indpe = float(fund[6].text)
+    
     col1, col2, col3, col4 = st.columns(4)
     x = round(stock_info.get_live_price("RELIANCE.NS"),2)
     y = round(reldaily['close'].iloc[-2],2)
@@ -65,11 +103,30 @@ if comp == 'Reliance Industries - RELIANCE':
 
     col1, col2, col3, col4 = st.columns(4)
     col1.metric(label='Previous Close', value=y)
-    col2.metric(label="Book Value Per Share", value=1202.45)
-    col3.metric(label='Earning Per Share', value=93.96)
-    col4.metric(label="Dividend Yield", value='0.36%')
+    col2.metric(label="Book Value Per Share", value=float(fund[7].text))
+    col3.metric(label='Earning Per Share', value=float(fund[3].text))
+    col4.metric(label="Dividend Yield", value=div)
+    
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric(label='P/B Ratio', value=pb)
+    col2.metric(label="P/E Ratio", value=pe)
+    col3.metric(label='Industry P/E', value=indpe)
+    col4.metric(label="Debt to Equity", value=de)
 
 if comp == 'Infosys - INFY':
+    
+    page = requests.get('https://groww.in/stocks/tata-consultancy-services-ltd')
+    soup=BeautifulSoup(page.content,'html.parser')
+    fund=soup.find_all('td',class_="ft785Value")
+
+    #Fundamental Values
+    pb = float(fund[4].text)
+    pe = float(fund[2].text)
+    de = float(fund[8].text)
+    div = float(fund[5].text.replace('%',''))
+    roe = float(fund[1].text.replace('%',''))
+    indpe = float(fund[6].text)
+    
     col1, col2, col3, col4 = st.columns(4)
     x = round(stock_info.get_live_price("INFY.NS"),2)
     y = round(infdaily['close'].iloc[-2],2)
@@ -84,6 +141,12 @@ if comp == 'Infosys - INFY':
     col2.metric(label="Book Value Per Share", value=inf[48])
     col3.metric(label='Earning Per Share', value=inf[41])
     col4.metric(label="Dividend Yield", value=inf[22])
+    
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric(label='P/B Ratio', value=pb)
+    col2.metric(label="P/E Ratio", value=pe)
+    col3.metric(label='Industry P/E', value=indpe)
+    col4.metric(label="Debt to Equity", value=de)
 
 #Tab for Hist Data
 st.write("#")
