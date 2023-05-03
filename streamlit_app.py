@@ -427,7 +427,7 @@ if score >=9 :
     for percent_complete in range(score*10):
         time.sleep(0.02)
         my_bar.progress(percent_complete + 1, text=progress_text)
-
+    st.text(score*10%)
 elif score <=1 :
     progress_text = "Very Low Risk"
     my_bar = st.progress(0, text=progress_text)
@@ -436,6 +436,7 @@ elif score <=1 :
         time.sleep(0.02)
         my_bar.progress(percent_complete + 1, text=progress_text)
 
+    st.text(score*10%)
 elif score <=3 and score>=2:
     progress_text = "Low Risk"
     my_bar = st.progress(40, text=progress_text)
@@ -443,6 +444,8 @@ elif score <=3 and score>=2:
     for percent_complete in range(score*10):
         time.sleep(0.02)
         my_bar.progress(percent_complete + 1, text=progress_text)
+    
+    st.text(score*10%)  
         
 elif score <=6 and score >=4 :
     progress_text = "Moderate Risk"
@@ -451,14 +454,15 @@ elif score <=6 and score >=4 :
     for percent_complete in range(score*10):
         time.sleep(0.02)
         my_bar.progress(percent_complete + 1, text=progress_text)
-
+    st.text(score*10%)
 elif score <=8 and score >=7 :
-    progress_text = "High Risk : {score*10}%"
+    progress_text = "High Risk"
     my_bar = st.progress(80, text=progress_text)
 
     for percent_complete in range(score*10):
         time.sleep(0.02)
         my_bar.progress(percent_complete + 1, text=progress_text)
+    st.text(score*10%)
 
 st.caption('Based on 10 fundamental aspects of an equity.')
         
