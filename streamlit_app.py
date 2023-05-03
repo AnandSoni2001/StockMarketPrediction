@@ -350,7 +350,6 @@ def get_info(url, x):
     l_52 = float(df['Value'][4])
     h_52 = float(df['Value'][3])
     live = round(stock_info.get_live_price(x),2)
-    live
 
     #1 - 52Week
     if abs(live-h_52) <= abs(live-l_52):
@@ -644,8 +643,5 @@ with a3:
         fig = px.pie(values=x, names=tier)
         st.plotly_chart(fig, use_container_width=True, height=350)
 
-title = st.text_input('Enter your Name', '')
-if title :
-    st.write('Thank You ', title, ' ! We hope you liked our website.')
-
+st.write('Thanks ! We hope our webpage was useful.')
 st.caption('The Web Application was made by Anand Soni and Deepak Rathore.')
