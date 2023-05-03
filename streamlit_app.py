@@ -10,6 +10,9 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler 
 import joblib
 import yfinance as yf
+import time
+import requests
+from bs4 import BeautifulSoup
 
 #Heading
 st.title('Research Project on Stock Market Analysis and Prediction')
@@ -268,6 +271,139 @@ with option3:
         fig.update_layout(xaxis_title='Year', yaxis_title='Price', title='Comparing other relevant parameters')
         st.plotly_chart(fig, use_container_width=True)
 
+#Riskometer
+# Create object page
+def get_info(url, x):
+    score = 0
+    page = requests.get(url)
+    soup=BeautifulSoup(page.content,'html.parser')
+    fund=soup.find_all('td',class_="ft785Value")
+
+    #Fundamental Values
+    pb = float(fund[4].text)
+    pe = float(fund[2].text)
+    de = float(fund[8].text)
+    div = float(fund[5].text.replace('%',''))
+    roe = float(fund[1].text.replace('%',''))
+    indpe = float(fund[6].text)
+    pat = soup.find_all('div',class_="shp76TextRight")
+    promo = float(pat[0].text.replace('%',''))
+    df = get_stats(x)
+    l_52 = float(df['Value'][4])
+    h_52 = float(df['Value'][3])
+    live = round(stock_info.get_live_price(x),2)
+    live
+
+    #1 - 52Week
+    if abs(live-h_52) <= abs(live-l_52):
+        score = score + 1
+
+    #2 - Rev
+    if x == 'TCS.NS':
+        score = score +1
+
+    #3 - PB
+    if pb<3:
+        score = score+1
+    elif pb>3:
+        score = score - 1
+
+    #4 - SHP
+    if promo>50:
+        score = score+1
+    elif promo<50:
+        score = score-1
+
+    #5 - Last 5 Year all 3 stocks made profit
+    score = score + 1
+
+    #6 - PE
+    if pe < 30:
+        score = score+1
+    elif pe > 100:
+        score = score - 1
+
+    #7 - DE
+    if de < 1:
+        score = score+1
+    elif de > 2:
+        score = score - 1
+
+    #8 - DivY
+    if div > 2:
+        score = score + 1
+
+    elif div == 'NULL' or div == 'NA':
+        score = score - 1
+
+    #9 - ROE
+    if roe > 25:
+        score = score + 1
+    elif roe < 5:
+        score = score - 1
+
+    #10 - Ind
+    if pe>indpe:
+        score = score-1
+    elif abs(pe-indpe)<(indpe*0.1):
+        score = score+1
+  
+    return score
+
+#Access URL object
+if comp == 'Tata Consultancy Services - TCS':
+    ans = get_info('https://groww.in/stocks/tata-consultancy-services-ltd', 'TCS.NS')
+if comp == 'Infosys - INFY':
+    ans = get_info('https://groww.in/stocks/infosys-ltd', 'INFY.NS')
+if comp == 'Reliance Industries - RELIANCE':
+    ans = get_info('https://groww.in/stocks/reliance-industries-ltd', 'RELIANCE.NS')
+   
+score = 10 - ans
+
+st.subheader('Riskometer')
+if score >=9 :
+    progress_text = "Very High Risk"
+    my_bar = st.progress(0, text=progress_text)
+
+    score = 10 if score>10 else score
+    for percent_complete in range(score*10):
+        time.sleep(0.02)
+        my_bar.progress(percent_complete + 1, text=progress_text)
+
+elif score <=1 :
+    progress_text = "Very Low Risk"
+    my_bar = st.progress(0, text=progress_text)
+
+    for percent_complete in range(score*10):
+        time.sleep(0.02)
+        my_bar.progress(percent_complete + 1, text=progress_text)
+
+elif score <=3 and score>=2:
+    progress_text = "Low Risk"
+    my_bar = st.progress(40, text=progress_text)
+
+    for percent_complete in range(score*10):
+        time.sleep(0.02)
+        my_bar.progress(percent_complete + 1, text=progress_text)
+        
+elif score <=6 and score >=4 :
+    progress_text = "Moderate Risk"
+    my_bar = st.progress(60, text=progress_text)
+
+    for percent_complete in range(score*10):
+        time.sleep(0.02)
+        my_bar.progress(percent_complete + 1, text=progress_text)
+
+elif score <=8 and score >=7 :
+    progress_text = "High Risk"
+    my_bar = st.progress(80, text=progress_text)
+
+    for percent_complete in range(score*10):
+        time.sleep(0.02)
+        my_bar.progress(percent_complete + 1, text=progress_text)
+
+st.caption('Based on 10 fundamental aspects of the stock.')
+        
 #Predictions
 st.write("#")
 st.subheader('Predict : ')
