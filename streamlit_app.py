@@ -9,6 +9,7 @@ import math
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler 
 import joblib
+import yfinance as yf
 
 #Heading
 st.title('Research Project on Stock Market Analysis and Prediction')
