@@ -332,7 +332,66 @@ if st.button('Click Here'):
         val = np.around(ans1[-1][0], decimals=2)
         st.metric(label="Prediction", value=val, delta = round(val-x,2))
         
-        
+
+#Support & Resistance
+st.subheader('Support and Resistance Indicators : ')
+
+def supp_resis(x):
+    tcsdaily = stock_info.get_data(x, interval="1d")
+    new = tcsdaily.tail(20).head(1)
+
+    high = new['high']
+    low = new['low']
+    close = new['close']
+    pp = (high + low + close)/3
+    r1 = 2*pp - low
+    s1 = 2*pp - high
+    r2 = pp + (r1-s1)
+    s2 = pp - (r1-s1)
+    r3 = high + 2*(pp-low)
+    s3 = low - 2*(high - pp)
+
+    fig = px.line(tcsdaily.tail(20), y='close',markers=False, title=x+' daily data of 1 month')     
+    fig.add_hline(y=r1[0], line_dash="dash", line_color="orange",  annotation_text="1st Resistance")
+    fig.add_hline(y=s1[0], line_dash="dash", line_color="lime", annotation_text="1st Support")
+
+    fig.add_hline(y=r2[0], line_dash="dash", line_color="red",  annotation_text="2nd Resistance")
+    fig.add_hline(y=s2[0], line_dash="dash", line_color="green", annotation_text="2nd Support")
+
+    fig.add_hline(y=r3[0], line_dash="dash", line_color="darkred",  annotation_text="3rd Resistance")
+    fig.add_hline(y=s3[0], line_dash="dash", line_color="darkgreen", annotation_text="3rd Support")
+
+    st.plotly_chart(fig, use_container_width=True)
+
+    data = yf.download(
+            tickers = x,
+            period = "5d",
+            interval = "60m",
+            group_by = 'ticker',
+            auto_adjust = True,
+            prepost = False,
+            threads = True,
+            proxy = None)
+
+    fig = px.line(data, y='Close',markers=False, title=x+' hourly data of 5 days')     
+    fig.add_hline(y=r1[0], line_dash="dash", line_color="orange",  annotation_text="1st Resistance")
+    fig.add_hline(y=s1[0], line_dash="dash", line_color="lime", annotation_text="1st Support")
+
+    fig.add_hline(y=r2[0], line_dash="dash", line_color="red",  annotation_text="2nd Resistance")
+    fig.add_hline(y=s2[0], line_dash="dash", line_color="green", annotation_text="2nd Support")
+
+    fig.add_hline(y=r3[0], line_dash="dash", line_color="darkred",  annotation_text="3rd Resistance")
+    fig.add_hline(y=s3[0], line_dash="dash", line_color="darkgreen", annotation_text="3rd Support")
+
+    st.plotly_chart(fig, use_container_width=True)
+
+if comp == 'Tata Consultancy Services - TCS':
+    supp_resis('TCS.NS')
+if comp == 'Infosys - INFY':
+    supp_resis('INFY.NS')
+if comp == 'Reliance Industries - RELIANCE':
+    supp_resis('RELIANCE.NS')
+
 #Tab for Hist Data
 st.write("#")
 st.subheader('Financial data : ')
