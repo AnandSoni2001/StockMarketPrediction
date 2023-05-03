@@ -460,7 +460,7 @@ elif score <=8 and score >=7 :
         time.sleep(0.02)
         my_bar.progress(percent_complete + 1, text=progress_text)
 
-st.caption('Based on 10 fundamental aspects of the stock.')
+st.caption('Based on 10 fundamental aspects, this equity is good for ', score*10, '% of them.')
         
 #Predictions
 st.write("#")
