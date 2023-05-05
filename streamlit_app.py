@@ -488,7 +488,7 @@ if st.button('Click Here'):
             x_test.append(test_data[i-60:i, 0])
         x_test = np.array(x_test)
         x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
-        new = joblib.load('/New/tcsmodelnew.pkl')
+        new = joblib.load('New/tcsmodelnew.pkl')
         ans = new.predict(x_test)
         ans1 = scaler.inverse_transform(ans)
         val = np.around(ans1[-1][0], decimals=2)
