@@ -541,7 +541,7 @@ st.subheader('Support and Resistance Indicators : ')
 
 def supp_resis(x):
     tcsdaily = stock_info.get_data(x, interval="1d")
-    new = tcsdaily.tail(7).head(1)
+    new = tcsdaily.tail(60).head(1)
 
     high = new['high']
     low = new['low']
