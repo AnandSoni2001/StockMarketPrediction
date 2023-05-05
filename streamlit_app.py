@@ -528,7 +528,7 @@ if st.button('Click Here'):
             x_test.append(test_data[i-60:i, 0])
         x_test = np.array(x_test)
         x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
-        new = joblib.load('OldModel/infymodelnew.pkl')
+        new = joblib.load('New/infymodelnew.pkl')
         ans = new.predict(x_test)
         ans1 = scaler.inverse_transform(ans)
         val = np.around(ans1[-1][0], decimals=2)
@@ -541,7 +541,7 @@ st.subheader('Support and Resistance Indicators : ')
 
 def supp_resis(x):
     tcsdaily = stock_info.get_data(x, interval="1d")
-    new = tcsdaily.tail(20).head(1)
+    new = tcsdaily.tail(7).head(1)
 
     high = new['high']
     low = new['low']
